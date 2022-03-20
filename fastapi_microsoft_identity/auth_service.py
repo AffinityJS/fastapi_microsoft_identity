@@ -114,7 +114,7 @@ def requires_auth(f):
                             "n": key["n"],
                             "e": key["e"]
                         }
-        except Exception:
+        except Exception as e:
             raise fastapi.HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                         detail="Not authenticated, please login!")
         if rsa_key:
