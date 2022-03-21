@@ -35,25 +35,7 @@ class AuthError(Exception):
         self.status_code = status_code
 
 
-def get_token_auth_header(request: Request, response: Response):
-    try:
-        result = Token.get_token()
-
-        user_info = result["id_token_claims"]
-
-        token_response = {
-            "token_type": result["token_type"],
-            "token": result["access_token"],
-            "expires_in": result["expires_in"],
-            "username": user_info["preferred_username"],
-            "name": user_info["name"]
-        }
-
-        access_token = result["access_token"]
-        response.set_cookie(key="Authorization", value=f"Bearer {access_token}", httponly=True)
-    except Exception:
-        pass
-
+def get_token_auth_header(request: Request):
     auth = request.cookies.get("Authorization")
     if not auth:
         raise fastapi.HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
