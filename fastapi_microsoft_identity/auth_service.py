@@ -178,7 +178,8 @@ def __decode_B2C_JWT(token_version, token, rsa_key):
             issuer=_issuer
         )
     except jwt.ExpiredSignatureError:
-        raise AuthError("Token error: The token has expired", 401)
+        raise fastapi.HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
+                                    detail="Token expired!")
     except jwt.JWTClaimsError:
         raise AuthError("Token error: Please check the audience and issuer", 401)
     except Exception:
