@@ -36,7 +36,7 @@ class AuthError(Exception):
 
 
 def get_token_auth_header(request: Request):
-    auth = request.cookies.get("Authorization")
+    auth = request.session.get("Authorization")
     if not auth:
         raise fastapi.HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
                                     detail="Authentication error: Authorization header is missing")
